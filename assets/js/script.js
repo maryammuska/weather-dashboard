@@ -1,6 +1,4 @@
 var apiKey = "5a2758b5cd5baba02cd6be48373cbe6f";
-// var cityName = "Los Angeles";
-// var url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
 var cityTime = document.querySelector("#city-time");
 
 $("#search-btn").on("click", function(e){
@@ -13,17 +11,10 @@ $("#search-btn").on("click", function(e){
 
 function currentWeather(cityName)
 {
-    // var coord_api = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
     var url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
     fetch(url)
     .then(function(res) {
         return res.json();
-    // if(response.ok) {
-       // return response.json().then(data => displayWeather(data));
-       //console.log(res);
-    // } else {
-    //     alert("You need to type in a valid city")
-    // }
     })
     .then(function(data){
         console.log(data);
@@ -41,11 +32,3 @@ function currentWeather(cityName)
         $("current").append(wind);
     })
 }
-
-
-//     function displayWeather(data) {
-//         console.log(data);
-//         // cityTime(data.name);
-//         // console.log(data.main.humidity);
-//         console.log(data.weather[0].icon);
-//     }
