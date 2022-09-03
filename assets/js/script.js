@@ -1,5 +1,9 @@
 var apiKey = "5a2758b5cd5baba02cd6be48373cbe6f";
-var cityTime = document.querySelector("#city-time");
+
+var inputval = document.querySelector('#city-input');
+var btn = document.querySelector('#search-button');
+var forecast = document.querySelector('#forecast');
+var cityTime = document.querySelector("#cityNameDate");
 
 $("#search-btn").on("click", function(e){
     e.preventDefault();
@@ -11,24 +15,74 @@ $("#search-btn").on("click", function(e){
 
 function currentWeather(cityName)
 {
-    var url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
+    var url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=imperial`;
     fetch(url)
     .then(function(res) {
         return res.json();
     })
     .then(function(data){
         console.log(data);
-        var city = $("<h2>");
-        city.text(data.name);
-        $("#current").append(city);
-        
-        var date = new Date(data.dt * 1000);
-        var dateEl = $("<h2>");
-        dateEl.text(date);
-        $("#current").append(dateEl);
+       
+        $("#cityNameDate").text(data.name);
+        $("#temp").text(data.main.temp + " F");
+        $("#humidity").text(data.main.humidity + "%");
+        $("#windspeed").text(data.wind.speed + "mph");
+        // $("#uv").text(data.main.humidity + "%");
 
-        var wind = $("<h4>");
-        wind.text(wind);
-        $("current").append(wind);
+        
+        saveLastCity(data.name)
+
+        var urlOnecall = `https://api.openweathermap.org/data/3.0/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&units=imperial&appid=${apiKey}`;
+        fetch(urlOnecall)
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(oneCallData){
+            console.log(oneCallData);
+        }
+        )
+        //nested API call
+        //data.coord.lon
+        //data.coord.lat
+        //another fetch from inside this scope
+        // https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&units=imperial&appid={API key}
     })
+
+
 }
+
+function saveLastCity(cityName) {
+    //controls saving cities
+    var listOfCities = []
+    if(localStorage.getItem("history")) {
+        listOfCities = JSON.parse(localStorage.getItem("history"))
+    }
+
+    listOfCities.push(cityName);
+    localStorage.setItem("history", JSON.stringify(listOfCities))
+    //renderCities
+    renderCities()
+}
+
+renderCities()
+function renderCities () {
+    $("#cityList").html("");
+
+    var listOfCities = []
+    if(localStorage.getItem("history")) {
+        listOfCities = JSON.parse(localStorage.getItem("history"))
+    }
+    //button render for loop, but they do nothing after I click right now
+    for(i=0; i<listOfCities.length; i++) {
+        var newBtn = $("<button>").attr("class","btn btn-info col-12 mb-2")
+        newBtn.text(listOfCities[i])
+        $("#cityList").append(newBtn)
+    }
+}
+
+//     function displayWeather(data) {
+//         console.log(data);
+//         // cityTime(data.name);
+//         // console.log(data.main.humidity);
+//         console.log(data.weather[0].icon);
+//     }

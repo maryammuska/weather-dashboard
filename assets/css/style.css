@@ -1,11 +1,59 @@
-#search-history {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-   }
-  .main {
-    flex: 1;
-  }
-  .footer {
-   flex: 0;
-  }
+/* #city-input{
+    border-radius: 5px;
+    border: 50px;
+    border-width: 40px;
+    border-style: double;
+    border-color: black;
+    height: 600px;
+    background-color: chartreuse;
+
+} */
+
+#search{
+    height: 100%;
+}
+
+#forecast{
+    height: 60%;
+}
+
+.low{
+    height: 20px;
+    width: 40px;
+    background-color: green;
+    text-align: center;
+    display: inline-block;
+}
+
+.moderate{
+    height: 25px;
+    width: 40px;
+    background-color: yellow;
+    text-align: center;
+    display: inline-block;
+}
+.high{
+    height: 25px;
+    width: 40px;
+    background-color: orange;
+    text-align: center;
+    display: inline-block;
+}
+.veryHigh{
+    height: 25px;
+    width: 40px;
+    background-color: red;
+    text-align: center;
+    display: inline-block;
+}
+
+.fiveDayForecast{
+    background-color: blue;
+    color: white;   
+    float: left;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 18%;
+    min-width: 150px;
+}
