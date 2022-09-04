@@ -1,9 +1,13 @@
 var apiKey = "5a2758b5cd5baba02cd6be48373cbe6f";
 
+
 var inputval = document.querySelector('#city-input');
 var btn = document.querySelector('#search-button');
 var forecast = document.querySelector('#forecast');
 var cityTime = document.querySelector("#cityNameDate");
+
+var $cityDate = moment().format("llll");
+$("#currentDate").text($cityDate);
 
 $("#search-btn").on("click", function(e){
     e.preventDefault();
@@ -24,15 +28,16 @@ function currentWeather(cityName)
         console.log(data);
        
         $("#cityNameDate").text(data.name);
-        $("#temp").text(data.main.temp + " F");
-        $("#humidity").text(data.main.humidity + "%");
-        $("#windspeed").text(data.wind.speed + "mph");
+        $("#temp").text("Temp: " + data.main.temp + " F");
+        $("#humidity").text("Humidity: " + data.main.humidity + "%");
+        $("#windSpeed").text("Windspeed: " + data.wind.speed + "mph");
         // $("#uv").text(data.main.humidity + "%");
 
         
         saveLastCity(data.name)
 
-        var urlOnecall = `https://api.openweathermap.org/data/3.0/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&units=imperial&appid=${apiKey}`;
+        var urlOnecall = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey};`
+
         fetch(urlOnecall)
         .then(function(res){
             return res.json();
