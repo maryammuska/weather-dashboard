@@ -6,8 +6,8 @@ var btn = document.querySelector('#search-button');
 var forecast = document.querySelector('#forecast');
 var cityTime = document.querySelector("#cityNameDate");
 
-var $cityDate = moment().format("llll");
-$("#currentDate").text($cityDate);
+// var $cityDate = moment().format("llll");
+// $("#currentDate").text($cityDate);
 
 $("#search-btn").on("click", function(e){
     e.preventDefault();
@@ -27,16 +27,16 @@ function currentWeather(cityName)
     .then(function(data){
         console.log(data);
        
-        $("#cityNameDate").text(data.name);
+        $("#cityNameDate").text(`${data.name} ${new Date(data.dt * 1000).toLocaleDateString("en-US")}`);
         $("#temp").text("Temp: " + data.main.temp + " F");
         $("#humidity").text("Humidity: " + data.main.humidity + "%");
-        $("#windSpeed").text("Windspeed: " + data.wind.speed + "mph");
+        $("#windSpeed").text("Windspeed: " + data.wind.speed + " mph");
         // $("#uv").text(data.main.humidity + "%");
 
         
         saveLastCity(data.name)
 
-        var urlOnecall = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey};`
+        var urlOnecall = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${apiKey}&units=imperial`;
 
         fetch(urlOnecall)
         .then(function(res){
@@ -44,13 +44,25 @@ function currentWeather(cityName)
         })
         .then(function(oneCallData){
             console.log(oneCallData);
+
+            $("#uv").text(`UV Index: ${oneCallData.current.uvi}`);
+
+        for (let i = 0; i < 5; i++) {	
+        $( "#5dayForecast" ).append(`<div class="card col-2 text-white bg-dark font ">
+        <div class="row">
+        <div class="card-body">
+          <p class="card-title">${new Date(oneCallData.daily[i].dt * 1000).toLocaleDateString("en-US")}</p>
+          <img src="https://openweathermap.org/img/w/${oneCallData.daily[i].weather[0].icon}.png">
+          <p class="card-temp"> Temp: ${oneCallData.daily[i].temp.day} F</p>
+          <p class="card-wind"> Windspeed: ${oneCallData.daily[i].wind_speed} mph</p>
+          <p class="card-wind"> Humidity: ${oneCallData.daily[i].humidity}</p>
+        </div>
+        </div>
+      </div>`);
+            
+        }
         }
         )
-        //nested API call
-        //data.coord.lon
-        //data.coord.lat
-        //another fetch from inside this scope
-        // https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&units=imperial&appid={API key}
     })
 
 
@@ -63,9 +75,12 @@ function saveLastCity(cityName) {
         listOfCities = JSON.parse(localStorage.getItem("history"))
     }
 
-    listOfCities.push(cityName);
-    localStorage.setItem("history", JSON.stringify(listOfCities))
     //renderCities
+    
+    if(!listOfCities.includes(cityName)){
+        listOfCities.push(cityName);
+        localStorage.setItem("history", JSON.stringify(listOfCities))
+    }
     renderCities()
 }
 
@@ -84,10 +99,3 @@ function renderCities () {
         $("#cityList").append(newBtn)
     }
 }
-
-//     function displayWeather(data) {
-//         console.log(data);
-//         // cityTime(data.name);
-//         // console.log(data.main.humidity);
-//         console.log(data.weather[0].icon);
-//     }
