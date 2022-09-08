@@ -20,5 +20,6 @@ THEN I am presented with a 5-day forecast that displays the date, an icon repres
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 
-Screenshots:
+Screenshot of deployed application:
 
+<img width="1184" alt="Screen Shot 2022-09-08 at 10 38 21 AM" src="https://user-images.githubusercontent.com/101304518/189189518-b961974a-e3b2-4821-a23b-a95a74f5568c.png">
