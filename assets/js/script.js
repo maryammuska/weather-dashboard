@@ -26,7 +26,7 @@ function currentWeather(cityName) {
       console.log(data);
 
       $("#cityNameDate").text(
-        `${data.name} ${new Date(data.dt * 1000).toLocaleDateString("en-US")}`
+        `${data.name} ${new Date(data.dt * 1000).toLocaleDateString("en-US")}` 
       );
       $("#temp").text("Temp: " + data.main.temp + " F");
       $("#humidity").text("Humidity: " + data.main.humidity + "%");
