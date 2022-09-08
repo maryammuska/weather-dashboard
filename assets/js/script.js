@@ -44,7 +44,17 @@ function currentWeather(cityName) {
         .then(function (oneCallData) {
           console.log(oneCallData);
 
-          $("#uv").text(`UV Index: ${oneCallData.current.uvi}`);
+          $("#index-highlight").text(`${oneCallData.current.uvi}`);
+
+          if (oneCallData.current.uvi < 3) {
+            $("#index-highlight").css("background-color","green");
+          } else if (oneCallData.current.uvi > 5) {
+            $("#index-highlight").css("background-color","red");
+          } else {
+            $("#index-highlight").css("background-color","yellow");
+          };
+
+         $("#5dayForecast").empty(); 
 
           for (let i = 0; i < 5; i++) {
             $("#5dayForecast")
@@ -96,7 +106,7 @@ function renderCities() {
   }
   //button render for loop, but they do nothing after I click right now
   for (i = 0; i < listOfCities.length; i++) {
-    var newBtn = $("<button>").attr("class", "btn btn-info col-12 mb-2");
+    var newBtn = $("<button>").attr({"class": "btn btn-info col-12 mb-2", onclick: `currentWeather('${listOfCities[i]}')`});
     newBtn.text(listOfCities[i]);
     $("#cityList").append(newBtn);
   }
